@@ -1,0 +1,251 @@
+---
+title: "Decidir mejor en calendarios exigentes: análisis de la congestión competitiva en fútbol profesional"
+subtitle: "Programación y Análisis de Datos Deportivos, Máster en Análisis de Datos Deportivos"
+author: "Rocío Clemente"
+date: "13/01/2026"
+format: docx
+---
+
+## [Objetivo del análisis]{.underline}
+
+El objetivo de este caso práctico es diseñar un sistema inteligente de apoyo a la toma de decisiones que permita analizar el impacto de la congestión competitiva en el rendimiento físico y técnico de los jugadores de fútbol profesional.
+
+En el contexto actual del fútbol de alto nivel, los calendarios competitivos son cada vez más ajustados y exigentes, con una elevada acumulación de partidos a lo largo de la temporada debido a la coexistencia de competiciones nacionales e internacionales. Esta situación incrementa la carga física y mental de los jugadores y obliga a los cuerpos técnicos a tomar decisiones constantes sobre la gestión de minutos, las rotaciones y la planificación de las cargas de entrenamiento.
+
+El análisis se centra en evaluar cómo la acumulación de partidos en periodos cortos de tiempo influye en distintas variables de rendimiento, comparando el comportamiento de los jugadores en semanas con uno o varios encuentros oficiales. A partir de este análisis, el sistema pretende ofrecer información relevante que ayude al cuerpo técnico a optimizar la gestión de la plantilla y mantener el rendimiento competitivo en contextos de alta densidad de partidos.
+
+Desde un enfoque aplicado, el proyecto integra el uso de modelos de lenguaje (LLMs) como herramienta para transformar los resultados del análisis en informes automáticos en lenguaje natural, orientados a facilitar la interpretación de los datos por parte del cuerpo técnico. De este modo, el sistema no solo identifica patrones de rendimiento asociados a la congestión competitiva, sino que también contribuye a mejorar la comunicación de los resultados y a apoyar la toma de decisiones en escenarios de elevada exigencia competitiva.
+
+## [Datos necesarios]{.underline}
+
+Para el desarrollo del sistema propuesto, es necesario integrar distintos tipos de datos relacionados con el rendimiento del jugador, el contexto competitivo y la carga acumulada a lo largo de la temporada. El sistema se apoya tanto en variables obtenidas directamente de las fuentes de datos como en variables derivadas, calculadas a partir de las anteriores con el objetivo de facilitar la interpretación del rendimiento en escenarios de congestión competitiva.
+
+### Variables
+
+### Variables primarias
+
+-   Rendimiento físico
+
+    -   Minutos jugados por partido
+
+    -   Distancia total recorrida
+
+    -   Distancia a alta intensidad (HSR)
+
+    -   Número de sprints
+
+    -   Aceleraciones y deceleraciones
+
+    -   Indicadores de carga externa
+
+    -   Frecuencia cardíaca media o RPE (en caso de disponibilidad)
+
+-   Rendimiento técnico
+
+    -   Número de acciones técnicas (pases, tiros, duelos)
+
+    -   Porcentaje de pases completados
+
+    -   Pérdidas de balón
+
+    -   Acciones en último tercio
+
+    -   Recuperaciones y duelos defensivos
+
+-   Contexto competitivo
+
+    -   Fecha del partido
+
+    -   Tipo de competición
+
+    -   Resultado del encuentro
+
+    -   Condición de local o visitante
+
+    -   Días de descanso entre partidos
+
+    -   Minuto de sustitución (si procede).
+
+Algunas de estas métricas (distancia a alta intensidad, el número de sprints, el número de acciones técnicas, etc.) pueden ser proporcionadas directamente por los proveedores de datos; pero en caso contrario, se calcularían a partir de información más detallada.
+
+### b) Variables derivadas
+
+-   Clasificación de semanas según el grado de congestión competitiva (baja, media o alta).
+-   Carga acumulada del jugador en ventanas temporales (Ej: últimos 7 o 14 días).
+-   Métricas de rendimiento físico y técnico normalizadas por minuto jugado.
+-   Indicadores de variación del rendimiento entre semanas con distinta densidad de partidos.
+-   Índices sintéticos de fatiga basados en la evolución de la carga y el rendimiento.
+
+### Fuentes de datos
+
+-   Sistemas de seguimiento de jugadores mediante GPS o tracking utilizados en el fútbol profesional.
+-   Plataformas especializadas en análisis de eventos y estadísticas de partido.
+-   Información del calendario competitivo y resultados oficiales.
+-   Registros internos del cuerpo técnico relacionados con la planificación semanal y la gestión de minutos.
+
+### Formato esperado
+
+-   Archivos estructurados en formato CSV o Excel: datos agregados por partido o por semana.
+-   Ficheros JSON: datos de eventos o tracking con mayor nivel de detalle.
+
+## [Transformaciones y limpieza]{.underline}
+
+Antes de realizar el análisis, es necesario llevar a cabo un proceso de limpieza y transformación de los datos con el objetivo de garantizar su calidad y coherencia. Dado que el sistema integra información procedente de distintas fuentes (datos físicos, técnicos y contexto competitivo), es previsible la aparición de diversos problemas habituales en proyectos de análisis de datos deportivos.
+
+### Problemas anticipados
+
+-   Valores nulos o incompletos, especialmente en métricas físicas cuando un jugador no completa el partido o no participa en todos los encuentros.
+-   Registros duplicados, derivados de la integración de datos procedentes de múltiples fuentes o de errores en la exportación de ficheros.
+-   Inconsistencias en los formatos, como diferencias en unidades de medida.
+-   Desalineación temporal de los datos, al combinar información a nivel de partido, semana o jugador.
+-   Diferencias en el nivel de detalle de los datos, especialmente al combinar información resumida por partido con datos más detallados procedentes de tracking o eventos.
+
+### Transformaciones y técnicas de limpieza
+
+-   Estandarización de formatos: unificando unidades de medida, fechas y nomenclatura de variables.
+-   Gestión de valores nulos: mediante eliminación de registros no informativos o imputación simple cuando sea adecuado.
+-   Eliminación de duplicados: tras la integración de las distintas fuentes de datos.
+-   Agregación y normalización de variables: especialmente para obtener métricas comparables por minuto jugado o por semana.
+-   Creación de variables derivadas.
+-   Reestructuración de los datos: para facilitar el análisis longitudinal por jugador y por semana.
+
+### Herramientas empleadas
+
+-   Python: uso de pandas para la limpieza, transformación y creación de variables derivadas.
+-   R (alternativamente): uso de dplyr y tidyr para manipulación y reestructuración de datos.
+-   Organización del código en scripts separados por tareas (limpieza, creación de variables y preparación de los datos), lo que permite reproducir el proceso de transformación y actualizar el sistema de forma sencilla cuando se incorporan nuevos datos.
+
+## [Análisis y herramientas]{.underline}
+
+En este caso, el análisis se orienta a construir un sistema de apoyo a la toma de decisiones que permita interpretar cómo cambia el rendimiento del jugador en periodos de congestión competitiva y traducir esos hallazgos en recomendaciones prácticas para el cuerpo técnico.
+
+### Métodos de análisis
+
+-   Estadística descriptiva para caracterizar el rendimiento en distintos contextos de congestión:
+    -   Medias, medianas, desviaciones estándar, percentiles
+    -   Comparaciones por jugador, posición y rol
+-   Comparación entre condiciones (semanas con baja vs alta congestión):
+    -   Diferencias de medias y tamaños del efecto.
+    -   Análisis por tramos temporales (ej: antes/despues de semanas con 2-3 partidos)
+-   Modelos explicativos o predictivos (opcional):
+    -   Regresiones (lineales/logísticas) para estimar el efecto de la congestión controlando por minutos, rival, local/visitante, etc.
+    -   Modelos de clasificación para detectar escenarios de “riesgo” (ej: caída de rendimiento o señales de fatiga)
+-   Validación sencilla (train/test o validación cruzada) para asegurar cogerencia
+-   Segmentación por perfiles
+    -   Clustering simple para agrupar jugadores según respuesta a la congestión (Ej: los que “mantienen” rendimiento vs los que reducen el rendimiento).
+
+### Herramientas y librerías
+
+-   Python
+
+    -   pandas - numpy: limpieza, transformación y cálculo de métricas
+
+    -   matplotlib (plotly): visualización
+
+    -   scikit-learn: modelos predictivos y clustering
+
+    -   statsmodels (opcional): modelos estadísticos e interpretación
+
+-   R (alternativa equivalente)
+
+    -   dplyr - tidyr: manipulación de datos
+
+    -   ggplot2: visualización
+
+    -   caret o tidymodels: modelos y validación
+
+### Integración de LLMs
+
+Como parte del sistema propuesto, se plantea la integración de un modelo de lenguaje (LLM) con el objetivo de transformar los resultados del análisis en informes comprensibles y accionables para el entrenador/cuerpo técnico. El LLM no sustituye al análisis estadístico, sino que actúa como una capa adicional de interpretación y comunicación de los resultados de forma clara, incluyendo recomendaciones prácticas y alertas.
+
+**Prompt propuesto (para generar informe automático)**
+
+*“Eres analista de rendimiento en un club de fútbol profesional. Te voy a dar resultados comparando semanas con alta congestión (≥2 partidos) vs baja congestión (1 partido).*
+
+*Datos del jugador/equipo: \[Resultados del análisis\]*
+
+*Ahora con esta información:*
+
+1.  *Resume los hallazgos principales, en lenguaje claro para el entrenador/cuerpo técnico.*
+2.  *Indica posibles señales de fatiga o caída de rendimiento (si aparecen).*
+3.  *Sugiere recomendaciones prácticas para gestionar minutos, rotaciones y cargas de entrenamiento.*
+4.  *Menciona cualquier limitación de los datos disponibles (Ej: pocos minutos, valores faltantes, cambios de rol/posición).”*
+
+**Justificación de utilidad**
+
+-   Facilita la interpretación de resultados complejos, traduciéndolos a un lenguaje accesible para el cuerpo técnico
+
+-   Permite generar informes repetibles y consistentes tras cada periodo de congestión competitiva
+
+-   Ahorra tiempo de trabajo manual al staff técnico
+
+-   Reduce la barrera técnica: convierte métricas en decisiones concretas (rotar, ajustar cargar, limitar minutos, etc.)
+
+## [Visualización y comunicación de los resultados]{.underline}
+
+La visualización y comunicación de los resultados constituyen una parte clave del sistema, ya que el objetivo final no es simplemente analizar datos, sino facilitar la toma de decisiones del cuerpo técnico en contextos de congestión competitiva. Por ello, se priorizarían representaciones gráficas claras, intuitivas y orientadas a responder preguntas prácticas.
+
+### Visualización
+
+-   Gráficos comparativos (barras o boxplots): para visualizar diferencias de rendimiento físico y técnico entre semanas con baja y alta congestión competitiva y diferencias entre jugadores
+-   Gráficos de líneas temporales: que muestren la evolución de variables clave (carga, minutos, rendimiento) a lo largo de la temporada, destacando periodos de congestión.
+-   Diagramas de dispersión: para explorar relaciones entre carga acumulada y rendimiento o posibles señales de fatiga.
+-   Visualizaciones normalizadas por minuto jugado: que permitan comparar jugadores con distinta participación.
+-   Gráficos resumidos por jugador o posición, facilitando la identificación rápida de perfiles más sensibles a la congestión.
+
+Estas visualizaciones estarían diseñadas para ser fácilmente interpretables por el cuerpo técnico, evitando una complejidad excesiva y priorizando la claridad del mensaje.
+
+### Comunicación
+
+Los resultados del análisis se presentarían mediante diferentes formatos complementarios:
+
+-   Informe reproducible elaborado con Quarto: integrando texto explicativo, gráficos y tablas en un único documento, lo que permitiría documentar el proceso de análisis y facilitar su actualización con nuevos datos.
+
+-   Dashboard interactivo: orientado al cuerpo técnico, que permita explorar de forma dinámica el rendimiento por jugador, periodo y nivel de congestión competitiva.
+
+-   Informes automáticos en lenguaje natural: generados mediante el uso de modelos de lenguaje (LLMs), que sinteticen los principales hallazgos y recomendaciones prácticas tras cada periodo de congestión.
+
+El sistema combina visualización, análisis y comunicación automatizada para asegurar que la información generada sea accesible, útil y directamente aplicable en la toma de decisiones deportivas.
+
+## [Gestión del proyecto]{.underline}
+
+Para garantizar que el proyecto sea reproducible, escalable y fácil de
+mantener (especialmente si se actualiza con nuevos partidos), se plantea una
+organización clara del trabajo, control de versiones y un tratamiento básico de errores.
+
+### Organización
+
+Se utilizaría una estructura de carpetas sencilla y estándar, separando los distintos elementos del proyecto:
+
+-   /data: datos en bruto y datos procesados, manteniendo siempre una copia sin modificar
+
+-   /scripts: scripts de limpieza, transformación, análisis y generación de visualizaciones
+
+-   /reports: informe reproducible en Quarto y versiones exportadas (docx).
+
+-   /outputs: tablas finales, gráficos y ficheros de salida para el dashboard o informes automáticos
+
+-   /docs: documentación del proyecto (diccionario de variables, decisiones metodológicas)
+
+Además, para integrar de forma consistente datos procedentes de distintas fuentes (tracking/GPS, eventos y calendario competitivo), se podría emplear una base de datos relacional (por ejemplo, PostgreSQL o MySQL). Esta permitiría organizar la información en tablas (jugadores, partidos, métricas físicas, eventos y contexto competitivo), facilitar consultas por jugador, semana y nivel de congestión, y asegurar la coherencia de los datos a lo largo del tiempo.
+
+### Git/GitHub
+
+El control de versiones se gestionaría con Git, publicando el repositorio en GitHub para mantener trazabilidad y facilitar la colaboración. Se aplicaría:
+
+-   Commits frecuentes y descriptivos: por etapas (ingesta de datos, limpieza, creación de variables, análisis, visualizaciones, informe)
+-   Uso de un “.gitignore”: para evitar subir ficheros pesados o sensibles (Ej: datos brutos del club)
+-   Un README: que incluiría el objetivo del proyecto, la estructura del repositorio, instrucciones básicas para reproducir el análisis y dependencias principales.
+-   Ramas (opcional): para desarrollar nuevas funcionalidades (Ej: visualizaciones o dashboards) antes de integrarlas en la rama principal
+
+### Errores y logs
+
+Para reducir fallos y facilitar la detección de problemas, se contemplaría:
+
+-   Lectura de ficheros y procesos clave con manejo de errores (Ej: try/except en Python o tryCatch en R) para evitar que el flujo se detenga por un único archivo defectuoso.
+
+-   Validaciones básicas al inicio del flujo: comprobación de columnas esperadas, tipos de datos, rangos razonables (Ej: minutos jugados entre 0 y 120).
+
+-   Registro de eventos mediante logs simples: qué ficheros se han procesado, cuántos registros entran y salen tras limpieza, avisos por valores nulos, duplicados o inconsistencias.
+
+De este modo, se garantiza un flujo de trabajo ordenado y reproducible, adaptado a un contexto real en el que los datos cambian semana a semana.
